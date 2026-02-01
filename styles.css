@@ -162,11 +162,13 @@ input, select {
 
 .search-container {
     position: relative;
-    display: none;
+    display: block;
+    flex: 1;
+    max-width: 140px;
 }
 
 .search-input {
-    width: 200px;
+    width: 100%;
     padding: var(--spacing-sm) var(--spacing-md);
     padding-left: 40px;
     background-color: var(--color-surface);
