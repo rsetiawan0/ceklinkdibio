@@ -603,6 +603,27 @@ input, select {
         padding-bottom: 0;
     }
 }
+/* FIX: Show search box properly on mobile */
+@media (max-width: 767px) {
+    .header .container {
+        flex-wrap: wrap; /* allow wrapping */
+        height: auto;
+        padding-top: var(--spacing-sm);
+        padding-bottom: var(--spacing-sm);
+    }
+
+    .search-container {
+        order: 3;              /* move search below logo & toggle */
+        width: 100%;
+        max-width: 100%;       /* override 140px */
+        flex: none;
+    }
+
+    .search-input {
+        width: 100%;
+        font-size: 0.875rem;
+    }
+}
 
 /* Desktop Styles */
 @media (min-width: 768px) {
@@ -759,3 +780,4 @@ input, select {
         background-position: 200% 0;
     }
 }
+
