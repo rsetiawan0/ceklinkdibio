@@ -30,7 +30,7 @@ const GOOGLE_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT
 // Fallback sample data (used when Google Sheet is not configured or fails to load)
 const sampleProductsData = [
     {
-        id: 1,
+        id: 5,
         title: "Wireless Bluetooth Earbuds TWS Noise Cancelling Headphones",
         snippet: "High-quality wireless earbuds with active noise cancellation, 30-hour battery life, and premium sound quality.",
         price: 299000,
@@ -44,7 +44,7 @@ const sampleProductsData = [
         rating: 4.8
     },
     {
-        id: 2,
+        id: 6,
         title: "Korean Style Oversized Hoodie Unisex Streetwear Fashion",
         snippet: "Trendy oversized hoodie with soft cotton material, perfect for casual everyday wear.",
         price: 159000,
@@ -58,7 +58,7 @@ const sampleProductsData = [
         rating: 4.9
     },
     {
-        id: 3,
+        id: 7,
         title: "Vitamin C Serum 20% with Hyaluronic Acid Anti Aging",
         snippet: "Professional grade vitamin C serum that brightens skin, reduces dark spots, and fights signs of aging.",
         price: 89000,
@@ -72,7 +72,7 @@ const sampleProductsData = [
         rating: 4.7
     },
     {
-        id: 4,
+        id: 8,
         title: "Minimalist Desk Lamp LED Touch Control USB Rechargeable",
         snippet: "Modern desk lamp with 3 brightness levels, touch control, and long-lasting LED technology.",
         price: 125000,
@@ -86,7 +86,7 @@ const sampleProductsData = [
         rating: 4.6
     },
     {
-        id: 5,
+        id: 9,
         title: "Smart Watch Fitness Tracker Heart Rate Monitor Waterproof",
         snippet: "Full-featured smartwatch with health monitoring, sleep tracking, and 7-day battery life.",
         price: 449000,
@@ -100,7 +100,7 @@ const sampleProductsData = [
         rating: 4.5
     },
     {
-        id: 6,
+        id: 10,
         title: "Vintage High Waist Wide Leg Jeans Women Casual Denim",
         snippet: "Retro-style wide leg jeans with comfortable high waist design, perfect for any occasion.",
         price: 189000,
@@ -114,7 +114,7 @@ const sampleProductsData = [
         rating: 4.8
     },
     {
-        id: 7,
+        id: 11,
         title: "Niacinamide 10% + Zinc 1% Oil Control Serum",
         snippet: "Powerful serum that reduces blemishes, minimizes pores, and balances oily skin naturally.",
         price: 75000,
@@ -128,7 +128,7 @@ const sampleProductsData = [
         rating: 4.9
     },
     {
-        id: 8,
+        id: 12,
         title: "Aesthetic Room Decor LED Strip Lights RGB Remote Control",
         snippet: "Transform your room with colorful RGB LED lights, music sync feature, and easy installation.",
         price: 99000,
@@ -142,7 +142,7 @@ const sampleProductsData = [
         rating: 4.7
     },
     {
-        id: 9,
+        id: 13,
         title: "Portable Power Bank 20000mAh Fast Charging USB-C PD",
         snippet: "High-capacity power bank with fast charging support for all devices, compact and lightweight design.",
         price: 199000,
@@ -156,7 +156,7 @@ const sampleProductsData = [
         rating: 4.6
     },
     {
-        id: 10,
+        id: 14,
         title: "Casual Canvas Tote Bag Large Capacity Shoulder Bag",
         snippet: "Spacious canvas tote bag perfect for shopping, work, or everyday use with stylish design.",
         price: 79000,
@@ -170,7 +170,7 @@ const sampleProductsData = [
         rating: 4.8
     },
     {
-        id: 11,
+        id: 15,
         title: "Retinol Anti-Aging Night Cream with Peptides",
         snippet: "Advanced night cream that reduces wrinkles, firms skin, and promotes cell renewal while you sleep.",
         price: 145000,
@@ -184,7 +184,7 @@ const sampleProductsData = [
         rating: 4.7
     },
     {
-        id: 12,
+        id: 16,
         title: "Floating Wall Shelves Set Wood Storage Display",
         snippet: "Modern floating shelves perfect for displaying books, plants, and decor items in any room.",
         price: 159000,
