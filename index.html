@@ -3,12 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Best deals and recommendations from Shopee and TikTok Shop">
-    <title>Cek Link di Bio - Linktree</title>
+    <meta name="description" content="Discover amazing deals and products from Shopee and TikTok Shop. Find hot deals, flash sales, and new arrivals with exclusive affiliate offers.">
+    <meta name="keywords" content="affiliate deals, Shopee deals, TikTok Shop, product recommendations, online shopping, best prices, flash sales">
+    <meta name="author" content="Ceklinkdibio">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.ceklinkdibio.com/">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.ceklinkdibio.com/">
+    <meta property="og:title" content="Deal Finder - Discover Amazing Affiliate Deals">
+    <meta property="og:description" content="Your trusted source for the best affiliate deals from Shopee, TikTok Shop and more. Find hot deals, flash sales, and new arrivals.">
+    <meta property="og:image" content="https://www.ceklinkdibio.com/og-image.png">
+    <meta property="og:site_name" content="Ceklinkdibio">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.ceklinkdibio.com/">
+    <meta property="twitter:title" content="Deal Finder - Discover Amazing Affiliate Deals">
+    <meta property="twitter:description" content="Your trusted source for the best affiliate deals from Shopee, TikTok Shop and more.">
+    <meta property="twitter:image" content="https://www.ceklinkdibio.com/og-image.png">
+
+    <title>Deal Finder - Best Affiliate Deals from Shopee & TikTok Shop</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Structured Data - Organization Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Ceklinkdibio",
+        "url": "https://www.ceklinkdibio.com/",
+        "logo": "https://www.ceklinkdibio.com/logo.png",
+        "description": "Your trusted source for the best affiliate deals",
+        "sameAs": [
+            "https://www.facebook.com/Ceklinkdibio",
+            "https://www.twitter.com/Ceklinkdibio"
+        ]
+    }
+    </script>
+
+    <!-- Structured Data - WebSite Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Ceklinkdibio",
+        "url": "https://www.ceklinkdibio.com/",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+                "@type": "EntryPoint",
+                "urlTemplate": "https://www.ceklinkdibio.com/?search={search_term_string}"
+            },
+            "query-input": "required name=search_term_string"
+        }
+    }
+    </script>
 </head>
 <body>
     <!-- Header -->
@@ -20,7 +74,7 @@
                     <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-                <span>CekLinkdiBio</span>
+                <span>Ceklinkdibio</span>
             </a>
             <nav class="nav">
                 <button class="nav-toggle" aria-label="Toggle menu">
@@ -51,10 +105,40 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="container">
-            <h1>Discover Amazing Deals</h1>
+            <h1>Cek Link di Bio</h1>
             <p>Curated affiliate deals from Shopee, TikTok Shop, and more</p>
         </div>
     </section>
+
+    <!-- Hidden product template for Schema markup (used by JavaScript) -->
+    <template id="productTemplate">
+        <article class="product-card" data-product-id="">
+            <div class="product-image-wrapper">
+                <img src="" alt="" class="product-image" loading="lazy" decoding="async">
+                <div class="badge"></div>
+                <div class="platform-badge"></div>
+            </div>
+            <div class="product-info">
+                <h3 class="product-title"></h3>
+                <p class="product-snippet"></p>
+                <div class="product-meta">
+                    <div class="product-rating">
+                        <span class="stars"></span>
+                        <span class="rating-value"></span>
+                    </div>
+                    <span class="product-sold"></span>
+                </div>
+                <div class="product-pricing">
+                    <span class="product-price"></span>
+                    <span class="product-original-price"></span>
+                    <span class="discount-percent"></span>
+                </div>
+                <a href="" target="_blank" rel="nofollow noopener sponsored" class="product-link">View Deal</a>
+            </div>
+            <!-- Microdata Schema.org Product -->
+            <script type="application/ld+json" class="product-schema"></script>
+        </article>
+    </template>
 
     <!-- Filter Tags -->
     <section class="filter-section">
@@ -99,7 +183,7 @@
                             <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
-                        <span>DealFinder</span>
+                        <span>Ceklinkdibio</span>
                     </a>
                     <p>Your trusted source for the best affiliate deals</p>
                 </div>
@@ -125,7 +209,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2026 DealFinder. All rights reserved.</p>
+                <p>&copy; 2026 Ceklinkdibio. All rights reserved.</p>
                 <p class="affiliate-disclosure">Affiliate Disclosure: We may earn commissions from qualifying purchases.</p>
             </div>
         </div>
