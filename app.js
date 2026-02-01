@@ -546,10 +546,45 @@ function createProductCard(product) {
     
     const card = document.createElement('article');
     card.className = 'product-card';
+    card.setAttribute('data-product-id', product.id);
+    
+    // Create Schema.org Product structured data
+    const productSchema = {
+        "@context": "https://schema.org/",
+        "@type": "Product",
+        "name": product.title,
+        "description": product.snippet,
+        "image": product.image,
+        "brand": {
+            "@type": "Brand",
+            "name": product.platform
+        },
+        "offers": {
+            "@type": "Offer",
+            "url": product.link,
+            "priceCurrency": "IDR",
+            "price": product.price.toString(),
+            "priceValidUntil": new Date(Date.now() + 30*24*60*60*1000).toISOString().split('T')[0],
+            "itemCondition": "https://schema.org/NewCondition",
+            "availability": "https://schema.org/InStock",
+            "seller": {
+                "@type": "Organization",
+                "name": product.platform
+            }
+        },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": product.rating,
+            "bestRating": "5",
+            "worstRating": "1",
+            "ratingCount": product.sold
+        }
+    };
+    
     card.innerHTML = `
-        <a href="${product.link}" class="product-link" target="_blank" rel="noopener noreferrer nofollow">
+        <a href="${product.link}" class="product-link" target="_blank" rel="noopener noreferrer nofollow sponsored">
             <div class="product-image-container">
-                <img src="${product.image}" alt="${product.title}" class="product-image" loading="lazy">
+                <img src="${product.image}" alt="${product.title}" class="product-image" loading="lazy" decoding="async">
                 ${product.badge ? `<span class="product-badge ${product.badge}">${product.badge}</span>` : ''}
                 <span class="product-platform">${product.platform}</span>
             </div>
@@ -579,6 +614,9 @@ function createProductCard(product) {
                 </div>
             </div>
         </a>
+        <script type="application/ld+json">
+            ${JSON.stringify(productSchema)}
+        </script>
     `;
     
     return card;
