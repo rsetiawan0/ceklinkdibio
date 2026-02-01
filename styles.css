@@ -603,6 +603,29 @@ input, select {
         padding-bottom: 0;
     }
 }
+/* ========================= */
+/* MOBILE SEARCH FIX */
+/* ========================= */
+@media (max-width: 767px) {
+    .header .container {
+        flex-wrap: wrap;      /* allow next line */
+        height: auto;         /* remove fixed height */
+        padding-top: var(--spacing-sm);
+        padding-bottom: var(--spacing-sm);
+    }
+
+    .search-container {
+        order: 3;             /* move search below logo + menu */
+        width: 100%;
+        max-width: 100%;
+        flex: none;
+        margin-top: var(--spacing-sm);
+    }
+
+    .search-input {
+        width: 100%;
+    }
+}
 
 /* Desktop Styles */
 @media (min-width: 768px) {
@@ -687,8 +710,8 @@ input, select {
     }
 
     .search-input {
-        //width: 280px;
-    }
+    /* width: 280px; */
+}
 
     .hero {
         padding: var(--spacing-2xl) 0;
