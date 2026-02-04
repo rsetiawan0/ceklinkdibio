@@ -1,4 +1,4 @@
-﻿const fallbackProducts = [
+const fallbackProducts = [
   {
     id: 1,
     title: "Wireless Bluetooth Earbuds TWS Noise Cancelling Headphones",
@@ -208,13 +208,15 @@ const renderProducts = () => {
       return `
       <article class="card" itemscope itemtype="https://schema.org/BlogPosting">
         <div class="thumb-wrap">
-          <img class="thumb" src="${product.image}" alt="${product.title}" itemprop="image" loading="lazy" />
+          <a href="${product.link}" target="_blank" rel="noopener" aria-label="${product.title}">
+            <img class="thumb" src="${product.image}" alt="${product.title}" itemprop="image" loading="lazy" />
+          </a>
         </div>
         <div class="card-body">
           <a class="card-title" href="${product.link}" target="_blank" rel="noopener" itemprop="url">
             <span itemprop="headline">${product.title}</span>
           </a>
-          <a class="card-snippet" href="${product.singlePageLink}" target="_blank" rel="noopener" itemprop="description">
+          <a class="card-snippet" href="${product.singlePageLink || product.link}" target="_blank" rel="noopener" itemprop="description">
             ${product.snippet}
           </a>
           <div class="price-row">
