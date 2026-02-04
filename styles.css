@@ -1,4 +1,4 @@
-﻿:root {
+:root {
   --brand: #ff6a00;
   --brand-dark: #e85a00;
   --bg: #0f0f0f;
@@ -324,6 +324,39 @@ a {
 .thumb-wrap .thumb {
   height: auto;
   border-radius: 0;
+}
+
+.thumb-wrap a {
+  display: block;
+  position: relative;
+}
+
+.thumb-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.thumb-badge {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  background: rgba(10, 10, 10, 0.8);
+  color: #f3f3f3;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  border-radius: 999px;
+  backdrop-filter: blur(4px);
+}
+
+.thumb-wrap.is-playing .thumb-badge {
+  opacity: 0;
 }
 
 .card-body {
