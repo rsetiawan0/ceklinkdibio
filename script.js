@@ -214,7 +214,7 @@ const renderProducts = () => {
           <a class="card-title" href="${product.link}" target="_blank" rel="noopener" itemprop="url">
             <span itemprop="headline">${product.title}</span>
           </a>
-          <a class="card-snippet" href="${product.singlePageLink || product.link}" target="_blank" rel="noopener" itemprop="description">
+          <a class="card-snippet" href="${product.singlePageLink}" target="_blank" rel="noopener" itemprop="description">
             ${product.snippet}
           </a>
           <div class="price-row">
