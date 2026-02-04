@@ -1,4 +1,4 @@
-﻿const fallbackProducts = [
+const fallbackProducts = [
   {
     id: 1,
     title: "Wireless Bluetooth Earbuds TWS Noise Cancelling Headphones",
@@ -75,6 +75,7 @@ const normalizeProducts = (rows) => {
       item.singlepageLink ||
       item.singlepagelink ||
       "";
+    const videoLink = item.video || "";
     return {
       id: item.id || index + 1,
       title: item.title || "",
@@ -82,6 +83,7 @@ const normalizeProducts = (rows) => {
       price: Number(item.price) || 0,
       originalPrice: Number(item.originalPrice) || 0,
       image: item.image || "",
+      video: videoLink,
       link: item.link || "#",
       singlePageLink,
       platform: item.platform || "",
@@ -195,6 +197,54 @@ const sortProducts = (items) => {
   return sorted;
 };
 
+const setupHoverVideos = () => {
+  if (!gridEl) return;
+  gridEl.querySelectorAll('[data-video-src]').forEach((wrap) => {
+    const img = wrap.querySelector('img.thumb');
+    const video = wrap.querySelector('video.thumb-video');
+    if (!img || !video) return;
+
+    const playVideo = () => {
+      video.style.display = 'block';
+      video.play().catch(() => {});
+    };
+
+    const stopVideo = () => {
+      video.pause();
+      video.currentTime = 0;
+      video.style.display = 'none';
+      img.style.opacity = '1';
+      wrap.classList.remove('is-playing');
+    };
+
+    const onPlaying = () => {
+      wrap.classList.add('is-playing');
+      img.style.opacity = '0';
+    };
+
+    const onPause = () => {
+      wrap.classList.remove('is-playing');
+      img.style.opacity = '1';
+    };
+
+    video.addEventListener('playing', onPlaying);
+    video.addEventListener('pause', onPause);
+    video.addEventListener('ended', onPause);
+
+    const link = wrap.querySelector('a');
+    if (link) {
+      link.addEventListener('click', (event) => {
+        event.preventDefault();
+        if (video.paused) {
+          playVideo();
+        } else {
+          stopVideo();
+        }
+      });
+    }
+  });
+};
+
 const renderProducts = () => {
   if (!gridEl) return;
   const filtered = sortProducts(getFilteredProducts());
@@ -205,11 +255,18 @@ const renderProducts = () => {
       const discount = product.originalPrice > product.price
         ? Math.round((1 - product.price / product.originalPrice) * 100)
         : 0;
+      const hasVideo = Boolean(product.video);
       return `
       <article class="card" itemscope itemtype="https://schema.org/BlogPosting">
-        <div class="thumb-wrap">
+        <div class="thumb-wrap"${hasVideo ? ` data-video-src="${product.video}"` : ""}>
           <a href="${product.link}" target="_blank" rel="noopener" aria-label="${product.title}">
             <img class="thumb" src="${product.image}" alt="${product.title}" itemprop="image" loading="lazy" />
+            ${hasVideo ? `<span class="thumb-badge" aria-hidden="true">Play</span>` : ""}
+            ${hasVideo ? `
+            <video class="thumb-video" muted playsinline loop preload="none" style="display:none; width:100%; height:auto;" aria-hidden="true">
+              <source src="${product.video}" type="video/mp4" />
+            </video>
+            ` : ""}
           </a>
         </div>
         <div class="card-body">
@@ -239,6 +296,8 @@ const renderProducts = () => {
   if (loadMoreBtn) {
     loadMoreBtn.style.display = slice.length < filtered.length ? 'inline-flex' : 'none';
   }
+
+  setupHoverVideos();
 };
 
 const setupBurger = () => {
