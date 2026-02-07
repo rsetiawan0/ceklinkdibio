@@ -1,4 +1,10 @@
+User-agent: Mediapartners-Google
+Disallow:
 User-agent: *
+Disallow: /*m=1
+Disallow: /search
+Disallow: /search/label
+Disallow: /search?q=
+Disallow: /search?update-max=
 Allow: /
-
 Sitemap: https://www.ceklinkdibio.com/sitemap.xml
