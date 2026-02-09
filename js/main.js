@@ -1,8 +1,8 @@
 const CONFIG = {
   csvUrl: 'data/videos.csv',
   videosPerPage: 8,
-  siteUrl: 'https://mukenamurah.github.io/',
-  siteName: 'Mukena Murah Affiliate Hub'
+  siteUrl: 'https://www.ceklinkdibio.com/',
+  siteName: 'Cek Link di Bio - Rekomendasi produk marketplace'
 };
 
 const state = {
