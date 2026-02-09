@@ -279,7 +279,7 @@ body {
 }
 
 .video-title {
-  font-size: clamp(16px, 2.2vw, 18px);
+  font-size: clamp(18px, 2.1vw, 26px);
   line-height: 1.4;
   font-weight: 700;
   transition: color 0.2s ease;
