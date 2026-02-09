@@ -74,9 +74,10 @@
     let current = '';
     let inQuotes = false;
 
-    for (let i = 0; i < line.length; i += 1) {
-      const char = line[i];
-      const next = line[i + 1];
+    const cleanLine = line.replace(/^\uFEFF/, '');
+    for (let i = 0; i < cleanLine.length; i += 1) {
+      const char = cleanLine[i];
+      const next = cleanLine[i + 1];
 
       if (char === '"') {
         if (inQuotes && next === '"') {
@@ -102,16 +103,29 @@
   }
 
   function parseCSV(text) {
-    const lines = text.trim().split(/\r?\n/);
-    const headers = splitCSVLine(lines.shift());
+    const lines = text.split(/\r?\n/).filter(line => line.trim().length);
+    if (!lines.length) return [];
+    const headers = splitCSVLine(lines.shift()).map(header => header.trim());
 
     return lines.map(line => {
       const values = splitCSVLine(line);
       return headers.reduce((acc, header, index) => {
-        acc[header] = values[index] || '';
+        acc[header] = values[index] !== undefined ? values[index] : '';
         return acc;
       }, {});
     });
+  }
+
+  function resolveAffiliateCsvUrl() {
+    const script = document.currentScript || Array.from(document.scripts).find(el => (el.src || '').includes('/js/related.js'));
+    if (script && script.src) {
+      try {
+        return new URL('../data/afiliate.csv', script.src).toString();
+      } catch (error) {
+        /* ignore URL errors */
+      }
+    }
+    return new URL('/data/afiliate.csv', window.location.origin).toString();
   }
 
   function getAffiliateUrl(item) {
@@ -260,7 +274,7 @@
     const currentTitle = (titleEl ? titleEl.textContent : '').trim();
     if (!currentTitle) return;
 
-    const response = await fetch('data/afiliate.csv');
+    const response = await fetch(resolveAffiliateCsvUrl());
     if (!response.ok) return;
     const csvText = await response.text();
     const items = parseCSV(csvText);
