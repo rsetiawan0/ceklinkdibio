@@ -1,5 +1,5 @@
 const CONFIG = {
-  csvUrl: 'data/videos.csv',
+  csvUrl: 'data/afiliate.csv',
   videosPerPage: 8,
   siteUrl: 'https://www.ceklinkdibio.com/',
   siteName: 'Cek Link di Bio - Rekomendasi produk marketplace'
@@ -207,6 +207,9 @@ function renderVideoCard(video, index) {
   const ratingEl = node.querySelector('.rating');
   const badgeEl = node.querySelector('.badge');
   const discountEl = node.querySelector('.discount');
+  const affiliateUrl = getAffiliateUrl(video);
+  const pageUrl = getPageUrl(video);
+  const linkUrl = affiliateUrl || pageUrl;
 
   if (video.videolink) {
     const videoEl = document.createElement('video');
@@ -217,7 +220,7 @@ function renderVideoCard(video, index) {
     videoEl.loop = true;
     videoEl.setAttribute('preload', 'metadata');
 
-    const linkEl = wrapWithAffiliate(videoEl, video.singlepageurl);
+    const linkEl = wrapWithAffiliate(videoEl, linkUrl);
     linkEl.classList.add('media-link');
     linkEl.dataset.mediaType = 'video';
     mediaWrapper.appendChild(linkEl);
@@ -231,7 +234,7 @@ function renderVideoCard(video, index) {
     imageEl.src = video.imagelink;
     imageEl.alt = video.title;
 
-    const linkEl = wrapWithAffiliate(imageEl, video.singlepageurl);
+    const linkEl = wrapWithAffiliate(imageEl, linkUrl);
     linkEl.classList.add('media-link');
     linkEl.dataset.mediaType = 'image';
     mediaWrapper.appendChild(linkEl);
@@ -242,13 +245,13 @@ function renderVideoCard(video, index) {
     mediaWrapper.appendChild(playButton);
   }
 
-  const titleLink = wrapWithAffiliate(document.createElement('span'), video.singlepageurl);
+  const titleLink = wrapWithAffiliate(document.createElement('span'), linkUrl);
   titleLink.classList.add('title-link');
   titleLink.textContent = video.title;
   titleEl.innerHTML = '';
   titleEl.appendChild(titleLink);
 
-  const snippetLink = wrapWithAffiliate(document.createElement('span'), video.singlepageurl);
+  const snippetLink = wrapWithAffiliate(document.createElement('span'), pageUrl);
   snippetLink.classList.add('snippet-link');
   snippetLink.textContent = video.snippet || '';
   snippetEl.innerHTML = '';
@@ -271,6 +274,9 @@ function renderVideoCard(video, index) {
 }
 
 function wrapWithAffiliate(element, url) {
+  if (!url) {
+    return element;
+  }
   const link = document.createElement('a');
   link.href = url;
   link.target = '_blank';
@@ -284,7 +290,9 @@ function updateMetaAndStructuredData(video) {
   const title = fallback.title || CONFIG.siteName;
   const description = fallback.snippet || 'Kurasi produk viral Shopee terbaru dengan video affiliate.';
   const image = fallback.imagelink || `${CONFIG.siteUrl}images/og-default.jpg`;
-  const url = fallback.singlepageurl || CONFIG.siteUrl;
+  const pageUrl = getPageUrl(fallback) || CONFIG.siteUrl;
+  const affiliateUrl = getAffiliateUrl(fallback) || pageUrl;
+  const url = pageUrl;
   const pageTitle = buildPageTitle(title, url);
 
   setMeta('title', pageTitle);
@@ -310,7 +318,7 @@ function updateMetaAndStructuredData(video) {
       priceCurrency: 'IDR',
       price: normalizePrice(fallback.price),
       availability: 'https://schema.org/InStock',
-      url
+      url: affiliateUrl
     } : undefined,
     aggregateRating: fallback.rating ? {
       '@type': 'AggregateRating',
@@ -328,7 +336,7 @@ function updateMetaAndStructuredData(video) {
   const listItems = state.filteredVideos.slice(0, CONFIG.videosPerPage).map((item, idx) => ({
     '@type': 'ListItem',
     position: idx + 1,
-    url: item.singlepageurl || CONFIG.siteUrl,
+    url: getPageUrl(item) || CONFIG.siteUrl,
     name: item.title || CONFIG.siteName,
     image: item.imagelink || undefined
   }));
@@ -448,7 +456,7 @@ function sortComparator(a, b, order) {
     case 'rating':
       return toNumber(b.rating) - toNumber(a.rating);
     case 'newest':
-      return new Date(b.date || 0) - new Date(a.date || 0);
+      return new Date(b.dateIso || b.date || 0) - new Date(a.dateIso || a.date || 0);
     case 'price-asc':
       return toNumber(normalizePrice(a.price)) - toNumber(normalizePrice(b.price));
     case 'price-desc':
@@ -460,7 +468,7 @@ function sortComparator(a, b, order) {
 }
 
 function toNumber(value) {
-  const number = Number(value || 0);
+  const number = normalizeNumber(value);
   return Number.isFinite(number) ? number : 0;
 }
 
@@ -476,10 +484,11 @@ function parseCSV(text) {
 
   return lines.map(line => {
     const values = splitCSVLine(line);
-    return headers.reduce((acc, header, index) => {
+    const raw = headers.reduce((acc, header, index) => {
       acc[header] = values[index] || '';
       return acc;
     }, {});
+    return normalizeVideo(raw);
   });
 }
 
@@ -513,6 +522,83 @@ function splitCSVLine(line) {
 
   result.push(current.trim());
   return result;
+}
+
+function normalizeVideo(raw) {
+  const singlepageurl = raw.singlepageurl || raw.singlelink || raw.afflink || '';
+  const affiliateurl = raw.afflink || raw.singlelink || raw.singlepageurl || '';
+  const dateIso = normalizeDateInput(raw.date);
+  return {
+    ...raw,
+    singlepageurl,
+    affiliateurl,
+    dateIso
+  };
+}
+
+function getAffiliateUrl(video) {
+  return video.affiliateurl || video.afflink || video.singlelink || video.singlepageurl || '';
+}
+
+function getPageUrl(video) {
+  return video.singlelink || video.singlepageurl || video.afflink || '';
+}
+
+function normalizeNumber(value) {
+  if (value === null || value === undefined) return 0;
+  let str = String(value).trim();
+  if (!str) return 0;
+
+  if (str.includes(',') && str.includes('.')) {
+    str = str.replace(/\./g, '').replace(',', '.');
+  } else if (str.includes(',')) {
+    str = str.replace(',', '.');
+  } else if (str.includes('.')) {
+    const parts = str.split('.');
+    const last = parts[parts.length - 1] || '';
+    if (last.length === 3) {
+      str = parts.join('');
+    }
+  }
+
+  const number = Number(str);
+  return Number.isFinite(number) ? number : 0;
+}
+
+function normalizeDateInput(value) {
+  if (!value) return '';
+  const trimmed = String(value).trim();
+  if (/^\d{4}-\d{2}-\d{2}$/.test(trimmed)) {
+    return trimmed;
+  }
+
+  const parts = trimmed.split(/[\/\-.]/);
+  if (parts.length === 3) {
+    let [part1, part2, part3] = parts;
+    if (part3.length === 2) {
+      part3 = `20${part3}`;
+    }
+
+    const num1 = Number(part1);
+    const num2 = Number(part2);
+    let day = part1;
+    let month = part2;
+
+    if (num1 > 12 && num2 <= 12) {
+      day = part1;
+      month = part2;
+    } else if (num2 > 12 && num1 <= 12) {
+      day = part2;
+      month = part1;
+    } else {
+      day = part1;
+      month = part2;
+    }
+
+    return `${String(part3).padStart(4, '0')}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+  }
+
+  return trimmed;
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
