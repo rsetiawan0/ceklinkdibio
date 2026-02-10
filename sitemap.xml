@@ -2,22 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.ceklinkdibio.com/</loc>
-    <lastmod>2026-02-07</lastmod>
+    <lastmod>2026-02-10</lastmod>
     <priority>1.0</priority>
   </url>
+  
   <url>
-    <loc>https://www.ceklinkdibio.com/batik-pria-slimfit-gandhi-biru.html</loc>
-    <lastmod>2026-02-07</lastmod>
-    <priority>0.9</priority>
+    <loc>https://www.ceklinkdibio.com/batik/batik-pria-slimfit-elegan-merah-maroon.html</loc>
+    <lastmod>2026-02-10</lastmod>
+    <priority>0.8</priority>
   </url>
-  <url>
-    <loc>https://www.ceklinkdibio.com/batik-pria-slimfit-nismara-by-askar.html</loc>
-    <lastmod>2026-02-07</lastmod>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://www.ceklinkdibio.com/batik-pria-slimfit-elegan-merah-maroon.html</loc>
-    <lastmod>2026-02-07</lastmod>
-    <priority>0.9</priority>
-  </url>
- </urlset>
+</urlset>
