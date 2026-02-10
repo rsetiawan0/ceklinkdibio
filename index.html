@@ -185,18 +185,21 @@
     </template>
 
     <script id="structuredData" type="application/ld+json"></script>
-    <script>
-      window.gtag = window.gtag || function(){(window.gtag.q = window.gtag.q || []).push(arguments)};
-      window.dataLayer = window.dataLayer || [];
-    </script>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-E0RPT2H34M"></script>
-    <script>
-      window.gtag('js', new Date());
-      window.gtag('config', 'G-E0RPT2H34M');
-    </script>
+   
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-E0RPT2H34M"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-E0RPT2H34M');
+</script>
+
     <script src="js/main.js" type="module"></script>
   </body>
 </html>
+
 
 
 
