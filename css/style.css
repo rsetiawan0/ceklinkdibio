@@ -271,6 +271,7 @@ body {
 }
 
 .video-content {
+  padding: 10px 16px 18px;
   display: flex;
   flex-direction: column;
   gap: 10px;
