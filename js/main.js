@@ -2,7 +2,7 @@ const CONFIG = {
   csvUrl: 'data/afiliate.csv',
   videosPerPage: 8,
   siteUrl: 'https://www.ceklinkdibio.com/',
-  siteName: 'Cek Link di Bio - Rekomendasi produk marketplace'
+  siteName: 'CekLinkdiBio.com - Rekomendasi produk marketplace'
 };
 
 const state = {
