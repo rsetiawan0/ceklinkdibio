@@ -2,5 +2,8 @@ User-agent: Mediapartners-Google
 Disallow:
 User-agent: *
 Disallow: /search?q=
+Disallow: /js
+Disallow: /css
+Disallow: /data
 Allow: /
 Sitemap: https://www.ceklinkdibio.com/sitemap.xml
