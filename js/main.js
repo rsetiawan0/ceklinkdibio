@@ -10,7 +10,7 @@ const state = {
   filteredVideos: [],
   categories: new Set(),
   activeCategory: 'all',
-  sortOrder: 'popular',
+  sortOrder: 'newest',
   searchQuery: ''
 };
 
