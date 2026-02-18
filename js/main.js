@@ -1,8 +1,8 @@
 const CONFIG = {
-  csvUrl: 'data/afiliate.csv',
+  csvUrls: ['data/afiliate.csv'],
   videosPerPage: 8,
   siteUrl: 'https://www.ceklinkdibio.com/',
-  siteName: 'CekLinkdiBio.com - Rekomendasi produk marketplace'
+  siteName: 'Cek Link di Bio - Rekomendasi produk marketplace'
 };
 
 const state = {
@@ -28,9 +28,9 @@ const elements = {
 
 async function init() {
   try {
-    const csvText = await fetchText(CONFIG.csvUrl);
+    const csvText = await loadCsvText(CONFIG.csvUrls);
     state.videos = parseCSV(csvText);
-    hydrateState();
+    hydrateStateFromVideos(state.videos);
     renderCategoryOptions();
     renderVideos();
     bindEvents();
@@ -202,11 +202,9 @@ function renderVideoCard(video, index) {
   const titleEl = node.querySelector('.video-title');
   const snippetEl = node.querySelector('.snippet');
   const priceEl = node.querySelector('.price');
-  const originalEl = node.querySelector('.original-price');
   const soldEl = node.querySelector('.sold');
   const ratingEl = node.querySelector('.rating');
   const badgeEl = node.querySelector('.badge');
-  const discountEl = node.querySelector('.discount');
   const affiliateUrl = getAffiliateUrl(video);
   const pageUrl = getPageUrl(video);
   const linkUrl = affiliateUrl || pageUrl;
@@ -259,16 +257,10 @@ function renderVideoCard(video, index) {
 
   priceEl.textContent = formatPrice(video.price);
   priceEl.classList.remove('hidden');
-  originalEl.textContent = video.originalPrice ? formatPrice(video.originalPrice) : '-';
-  originalEl.classList.toggle('hidden', !video.originalPrice);
   soldEl.textContent = video.sold ? `${video.sold} terjual` : '-';
   ratingEl.textContent = video.rating ? `★ ${video.rating}` : '-';
-  badgeEl.textContent = video.badge || '';
-  badgeEl.classList.toggle('hidden', !video.badge);
-
-  const discount = computeDiscount(video.price, video.originalPrice);
-  discountEl.textContent = discount ? `-${discount}%` : '';
-  discountEl.classList.toggle('hidden', !discount);
+  badgeEl.textContent = video.category || '';
+  badgeEl.classList.toggle('hidden', !video.category);
 
   return node;
 }
@@ -425,13 +417,6 @@ function normalizePrice(value) {
   return value.toString().replace(/[^0-9]/g, '');
 }
 
-function computeDiscount(price, original) {
-  const current = Number(normalizePrice(price));
-  const base = Number(normalizePrice(original));
-  if (!current || !base || base <= current) return 0;
-  return Math.round(((base - current) / base) * 100);
-}
-
 function formatDate(isoString) {
   if (!isoString) return '';
   const date = new Date(isoString);
@@ -478,9 +463,25 @@ async function fetchText(url) {
   return response.text();
 }
 
+async function loadCsvText(urls) {
+  const candidates = Array.isArray(urls) ? urls : [urls];
+  let lastError;
+
+  for (const url of candidates) {
+    try {
+      return await fetchText(url);
+    } catch (error) {
+      lastError = error;
+    }
+  }
+
+  throw lastError || new Error('No CSV URL configured');
+}
+
 function parseCSV(text) {
-  const lines = text.trim().split(/\r?\n/);
-  const headers = splitCSVLine(lines.shift());
+  const lines = text.trim().split(/\r?\n/).filter(line => line.trim());
+  if (!lines.length) return [];
+  const headers = splitCSVLine(lines.shift()).map(normalizeHeaderName);
 
   return lines.map(line => {
     const values = splitCSVLine(line);
@@ -522,6 +523,29 @@ function splitCSVLine(line) {
 
   result.push(current.trim());
   return result;
+}
+
+function normalizeHeaderName(header) {
+  const clean = String(header || '')
+    .replace(/^\uFEFF/, '')
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, '');
+
+  const aliasMap = {
+    originalprice: 'originalPrice',
+    image: 'imagelink',
+    imageurl: 'imagelink',
+    videourl: 'videolink',
+    video: 'videolink',
+    affiliate: 'afflink',
+    affiliatelink: 'afflink',
+    affiliateurl: 'afflink',
+    pageurl: 'singlepageurl',
+    singlepage: 'singlepageurl'
+  };
+
+  return aliasMap[clean] || clean;
 }
 
 function normalizeVideo(raw) {
@@ -602,12 +626,5 @@ function normalizeDateInput(value) {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-  const csvText = await fetchText(CONFIG.csvUrl);
-  state.videos = parseCSV(csvText);
-  hydrateCategories(state.videos);
-  hydrateState();
-  renderCategoryOptions();
-  renderVideos();
-  bindEvents();
-  updateMetaAndStructuredData(state.filteredVideos[0]);
+  await init();
 });
