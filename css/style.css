@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Sora:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;700&family=Libre+Baskerville:ital,wght@0,400..700;1,400..700&display=swap');
 
 /* Mukena Murah - Product Grid Showcase */
 :root {
@@ -24,7 +25,7 @@
 }
 
 body {
-  font-family: "Sora", "Manrope", "Segoe UI", sans-serif;
+  font-family: "Be Vietnam Pro", "Segoe UI", sans-serif;
   background: radial-gradient(circle at top, #ffffff, #f3efe9 55%, #ece7e0 100%);
   color: var(--text);
   min-height: 100vh;
@@ -133,6 +134,7 @@ body {
 .video-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: start;
   gap: 18px;
   padding-bottom: 40px;
 }
@@ -157,7 +159,8 @@ body {
 .media-wrapper {
   position: relative;
   width: 100%;
-  padding-top: 128%;
+  aspect-ratio: 9 / 16;
+  padding-top: 0;
   background: #f2ede6;
   overflow: hidden;
 }
@@ -275,7 +278,6 @@ body {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  height: 100%;
 }
 
 .video-title {
@@ -310,7 +312,7 @@ body {
   color: var(--muted);
   line-height: 1.5;
   min-height: 40px;
-  font-family: "Inter", "Sora", "Manrope", "Segoe UI", sans-serif;
+  font-family: "Libre Baskerville", Georgia, serif;
 }
 
 .price-row {
@@ -347,7 +349,6 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: auto;
 }
 
 .badge,
@@ -720,9 +721,10 @@ h3 {
     padding: 10px;
   }
 
-  .media-wrapper {
+  .video-grid .media-wrapper {
     width: 108px;
-    padding-top: 144px;
+    aspect-ratio: 9 / 16;
+    padding-top: 0;
     border: 1px solid var(--border);
     background: #eee8df;
   }
