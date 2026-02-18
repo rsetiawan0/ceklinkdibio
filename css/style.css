@@ -136,7 +136,7 @@ body {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   align-items: start;
   gap: 18px;
-  padding-bottom: 40px;
+  padding-bottom: 10px;
 }
 
 .product-card {
@@ -381,7 +381,7 @@ body {
   justify-content: center;
   align-items: center;
   gap: 8px;
-  padding-bottom: 40px;
+  padding-bottom: 10px;
 }
 
 .page-number {
@@ -509,7 +509,7 @@ h3 {
 }
 
 .site-footer {
-  margin-top: 40px;
+  margin-top: 10px;
   border-top: 1px solid var(--border);
   background: #ffffff;
   color: #444;
@@ -763,6 +763,19 @@ h3 {
     gap: 6px;
     font-size: 14px;
     color: #f3b42f;
+  }
+
+  .badge-row {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 2px;
+  }
+
+  .badge-row .badge {
+    font-size: 12px;
+    padding: 4px 10px;
+    background: #f0ece7;
+    color: #5d5a57;
   }
 
   .meta-row .sold {
