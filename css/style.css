@@ -394,6 +394,12 @@ body {
   transition: all 0.2s ease;
 }
 
+.page-number[aria-current="page"] {
+  background: #ee4d2d;
+  border-color: #ee4d2d;
+  color: #fff;
+}
+
 .breadcrumb {
   display: flex;
   flex-wrap: wrap;
