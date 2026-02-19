@@ -51,6 +51,8 @@
 
     <main class="container">
    
+      
+  
       <section class="filters" aria-label="Filter produk">
         <div class="filters-header">
           <span>Filter Produk</span>
@@ -266,7 +268,7 @@
       </div>
     </article>
   
-    <article class="product-card hidden">
+    <article class="product-card">
       <div class="media-wrapper">
         
       <a href="https://s.shopee.co.id/AKV6NazRXp" target="_blank" rel="noopener nofollow" class="media-link" data-media-type="image">
@@ -290,7 +292,7 @@
         </div>
       </div>
     </article>
-  </section><button id="loadMoreBtn" type="button">Load More</button>
+  </section><nav class="pagination" aria-label="Navigasi halaman" id="pagination"></nav>
       
     </main>
 
@@ -439,599 +441,85 @@
       })();
     </script>
   
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const loadMoreBtn = document.getElementById('loadMoreBtn');
-        const hiddenCards = document.querySelectorAll('.product-card.hidden');
-        let currentIndex = 0;
-        const batchSize = 8;
-
-        function showMore() {
-          const nextBatch = Array.from(hiddenCards).slice(currentIndex, currentIndex + batchSize);
-          nextBatch.forEach(card => card.classList.remove('hidden'));
-          currentIndex += batchSize;
-          if (currentIndex >= hiddenCards.length) {
-            loadMoreBtn.style.display = 'none';
-          }
-        }
-
-        if (loadMoreBtn) {
-          loadMoreBtn.addEventListener('click', showMore);
-        }
-      });
-    </script>
     
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const loadMoreBtn = document.getElementById('loadMoreBtn');
-        const hiddenCards = document.querySelectorAll('.product-card.hidden');
-        let currentIndex = 0;
-        const batchSize = 8;
-
-        function showMore() {
-          const nextBatch = Array.from(hiddenCards).slice(currentIndex, currentIndex + batchSize);
-          nextBatch.forEach(card => card.classList.remove('hidden'));
-          currentIndex += batchSize;
-          if (currentIndex >= hiddenCards.length) {
-            loadMoreBtn.style.display = 'none';
-          }
-        }
-
-        if (loadMoreBtn) {
-          loadMoreBtn.addEventListener('click', showMore);
-        }
-      });
-    </script>
     
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const loadMoreBtn = document.getElementById('loadMoreBtn');
-        const hiddenCards = document.querySelectorAll('.product-card.hidden');
-        let currentIndex = 0;
-        const batchSize = 8;
-
-        function showMore() {
-          const nextBatch = Array.from(hiddenCards).slice(currentIndex, currentIndex + batchSize);
-          nextBatch.forEach(card => card.classList.remove('hidden'));
-          currentIndex += batchSize;
-          if (currentIndex >= hiddenCards.length) {
-            loadMoreBtn.style.display = 'none';
-          }
-        }
-
-        if (loadMoreBtn) {
-          loadMoreBtn.addEventListener('click', showMore);
-        }
-      });
-    </script>
     
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const loadMoreBtn = document.getElementById('loadMoreBtn');
-        const hiddenCards = document.querySelectorAll('.product-card.hidden');
-        let currentIndex = 0;
-        const batchSize = 8;
-
-        function showMore() {
-          const nextBatch = Array.from(hiddenCards).slice(currentIndex, currentIndex + batchSize);
-          nextBatch.forEach(card => card.classList.remove('hidden'));
-          currentIndex += batchSize;
-          if (currentIndex >= hiddenCards.length) {
-            loadMoreBtn.style.display = 'none';
-          }
-        }
-
-        if (loadMoreBtn) {
-          loadMoreBtn.addEventListener('click', showMore);
-        }
-      });
-    </script>
     
+    <!-- GENERATED_PAGINATION_FILTER_START -->
     <script>
       document.addEventListener('DOMContentLoaded', function() {
-        const loadMoreBtn = document.getElementById('loadMoreBtn');
-        const hiddenCards = document.querySelectorAll('.product-card.hidden');
-        let currentIndex = 0;
-        const batchSize = 8;
+        if (window.__paginationFilterInitialized) return;
+        window.__paginationFilterInitialized = true;
 
-        function showMore() {
-          const nextBatch = Array.from(hiddenCards).slice(currentIndex, currentIndex + batchSize);
-          nextBatch.forEach(card => card.classList.remove('hidden'));
-          currentIndex += batchSize;
-          if (currentIndex >= hiddenCards.length) {
-            loadMoreBtn.style.display = 'none';
-          }
-        }
-
-        if (loadMoreBtn) {
-          loadMoreBtn.addEventListener('click', showMore);
-        }
-
-        // Filter functionality
         const categoryFilter = document.getElementById('categoryFilter');
         const searchInput = document.getElementById('searchInput');
-        const soldFilter = document.getElementById('soldFilter');
-        const productCards = document.querySelectorAll('.product-card');
+        const pagination = document.getElementById('pagination');
+        const productCards = Array.from(document.querySelectorAll('.product-card'));
+        const pageSize = 8;
+        let currentPage = 1;
+        let filteredCards = productCards;
 
-        function applyFilters() {
-          const selectedCategory = categoryFilter.value;
-          const searchQuery = searchInput.value.toLowerCase();
-          const onlySold = soldFilter.checked;
+        function renderPagination() {
+          if (!pagination) return;
+          const totalPages = Math.ceil(filteredCards.length / pageSize);
+          if (totalPages <= 1) {
+            pagination.innerHTML = '';
+            return;
+          }
+
+          if (currentPage > totalPages) currentPage = totalPages;
+
+          pagination.innerHTML = '';
+          for (let page = 1; page <= totalPages; page += 1) {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'page-number';
+            btn.textContent = page;
+            if (page === currentPage) btn.setAttribute('aria-current', 'page');
+            btn.addEventListener('click', function() {
+              currentPage = page;
+              renderCards();
+              renderPagination();
+            });
+            pagination.appendChild(btn);
+          }
+        }
+
+        function renderCards() {
+          const start = (currentPage - 1) * pageSize;
+          const end = start + pageSize;
+          const visibleCards = new Set(filteredCards.slice(start, end));
 
           productCards.forEach(card => {
-            const category = card.querySelector('.badge')?.textContent || '';
-            const title = card.querySelector('.video-title')?.textContent || '';
-            const snippet = card.querySelector('.snippet')?.textContent || '';
-            const soldText = card.querySelector('.sold')?.textContent || '';
-            const hasSold = soldText.includes('terjual') && parseInt(soldText) > 0;
-
-            const matchesCategory = selectedCategory === 'all' || category.toLowerCase() === selectedCategory.toLowerCase();
-            const matchesSearch = !searchQuery || (title + snippet).toLowerCase().includes(searchQuery);
-            const matchesSold = !onlySold || hasSold;
-
-            if (matchesCategory && matchesSearch && matchesSold) {
-              card.style.display = '';
-            } else {
-              card.style.display = 'none';
-            }
+            card.style.display = visibleCards.has(card) ? '' : 'none';
           });
         }
 
-        categoryFilter.addEventListener('change', applyFilters);
-        searchInput.addEventListener('input', applyFilters);
-        soldFilter.addEventListener('change', applyFilters);
-      });
-    </script>
-    
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const loadMoreBtn = document.getElementById('loadMoreBtn');
-        const hiddenCards = document.querySelectorAll('.product-card.hidden');
-        let currentIndex = 0;
-        const batchSize = 8;
-
-        function showMore() {
-          const nextBatch = Array.from(hiddenCards).slice(currentIndex, currentIndex + batchSize);
-          nextBatch.forEach(card => card.classList.remove('hidden'));
-          currentIndex += batchSize;
-          if (currentIndex >= hiddenCards.length) {
-            loadMoreBtn.style.display = 'none';
-          }
-        }
-
-        if (loadMoreBtn) {
-          loadMoreBtn.addEventListener('click', showMore);
-        }
-
-        // Filter functionality
-        const categoryFilter = document.getElementById('categoryFilter');
-        const searchInput = document.getElementById('searchInput');
-        const soldFilter = document.getElementById('soldFilter');
-        const productCards = document.querySelectorAll('.product-card');
-
         function applyFilters() {
-          const selectedCategory = categoryFilter.value;
-          const searchQuery = searchInput.value.toLowerCase();
-          const onlySold = soldFilter.checked;
+          const selectedCategory = categoryFilter ? categoryFilter.value : 'all';
+          const searchQuery = searchInput ? searchInput.value.toLowerCase() : '';
 
-          productCards.forEach(card => {
-            const category = card.querySelector('.badge')?.textContent || '';
-            const title = card.querySelector('.video-title')?.textContent || '';
-            const snippet = card.querySelector('.snippet')?.textContent || '';
-            const soldText = card.querySelector('.sold')?.textContent || '';
-            const hasSold = soldText.includes('terjual') && parseInt(soldText) > 0;
-
-            const matchesCategory = selectedCategory === 'all' || category.toLowerCase() === selectedCategory.toLowerCase();
-            const matchesSearch = !searchQuery || (title + snippet).toLowerCase().includes(searchQuery);
-            const matchesSold = !onlySold || hasSold;
-
-            if (matchesCategory && matchesSearch && matchesSold) {
-              card.style.display = '';
-            } else {
-              card.style.display = 'none';
-            }
-          });
-        }
-
-        categoryFilter.addEventListener('change', applyFilters);
-        searchInput.addEventListener('input', applyFilters);
-        soldFilter.addEventListener('change', applyFilters);
-      });
-    </script>
-    
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const loadMoreBtn = document.getElementById('loadMoreBtn');
-        const hiddenCards = document.querySelectorAll('.product-card.hidden');
-        let currentIndex = 0;
-        const batchSize = 8;
-
-        function showMore() {
-          const nextBatch = Array.from(hiddenCards).slice(currentIndex, currentIndex + batchSize);
-          nextBatch.forEach(card => card.classList.remove('hidden'));
-          currentIndex += batchSize;
-          if (currentIndex >= hiddenCards.length) {
-            loadMoreBtn.style.display = 'none';
-          }
-        }
-
-        if (loadMoreBtn) {
-          loadMoreBtn.addEventListener('click', showMore);
-        }
-      });
-    </script>
-    
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const loadMoreBtn = document.getElementById('loadMoreBtn');
-        const hiddenCards = document.querySelectorAll('.product-card.hidden');
-        let currentIndex = 0;
-        const batchSize = 8;
-
-        function showMore() {
-          const nextBatch = Array.from(hiddenCards).slice(currentIndex, currentIndex + batchSize);
-          nextBatch.forEach(card => card.classList.remove('hidden'));
-          currentIndex += batchSize;
-          if (currentIndex >= hiddenCards.length) {
-            loadMoreBtn.style.display = 'none';
-          }
-        }
-
-        if (loadMoreBtn) {
-          loadMoreBtn.addEventListener('click', showMore);
-        }
-      });
-    </script>
-    
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const loadMoreBtn = document.getElementById('loadMoreBtn');
-        const hiddenCards = document.querySelectorAll('.product-card.hidden');
-        let currentIndex = 0;
-        const batchSize = 8;
-
-        function showMore() {
-          const nextBatch = Array.from(hiddenCards).slice(currentIndex, currentIndex + batchSize);
-          nextBatch.forEach(card => card.classList.remove('hidden'));
-          currentIndex += batchSize;
-          if (currentIndex >= hiddenCards.length) {
-            loadMoreBtn.style.display = 'none';
-          }
-        }
-
-        if (loadMoreBtn) {
-          loadMoreBtn.addEventListener('click', showMore);
-        }
-
-        // Filter functionality
-        const categoryFilter = document.getElementById('categoryFilter');
-        const searchInput = document.getElementById('searchInput');
-        const productCards = document.querySelectorAll('.product-card');
-
-        function applyFilters() {
-          const selectedCategory = categoryFilter.value;
-          const searchQuery = searchInput.value.toLowerCase();
-
-          productCards.forEach(card => {
+          filteredCards = productCards.filter(card => {
             const category = card.querySelector('.badge')?.textContent || '';
             const title = card.querySelector('.video-title')?.textContent || '';
             const snippet = card.querySelector('.snippet')?.textContent || '';
 
             const matchesCategory = selectedCategory === 'all' || category.toLowerCase() === selectedCategory.toLowerCase();
             const matchesSearch = !searchQuery || (title + snippet).toLowerCase().includes(searchQuery);
-
-            if (matchesCategory && matchesSearch) {
-              card.style.display = '';
-            } else {
-              card.style.display = 'none';
-            }
+            return matchesCategory && matchesSearch;
           });
+
+          currentPage = 1;
+          renderCards();
+          renderPagination();
         }
 
-        categoryFilter.addEventListener('change', applyFilters);
-        searchInput.addEventListener('input', applyFilters);
+        if (categoryFilter) categoryFilter.addEventListener('change', applyFilters);
+        if (searchInput) searchInput.addEventListener('input', applyFilters);
+        applyFilters();
       });
     </script>
-    
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const loadMoreBtn = document.getElementById('loadMoreBtn');
-        const hiddenCards = document.querySelectorAll('.product-card.hidden');
-        let currentIndex = 0;
-        const batchSize = 8;
-
-        function showMore() {
-          const nextBatch = Array.from(hiddenCards).slice(currentIndex, currentIndex + batchSize);
-          nextBatch.forEach(card => card.classList.remove('hidden'));
-          currentIndex += batchSize;
-          if (currentIndex >= hiddenCards.length) {
-            loadMoreBtn.style.display = 'none';
-          }
-        }
-
-        if (loadMoreBtn) {
-          loadMoreBtn.addEventListener('click', showMore);
-        }
-
-        // Filter functionality
-        const categoryFilter = document.getElementById('categoryFilter');
-        const searchInput = document.getElementById('searchInput');
-        const productCards = document.querySelectorAll('.product-card');
-
-        function applyFilters() {
-          const selectedCategory = categoryFilter.value;
-          const searchQuery = searchInput.value.toLowerCase();
-
-          productCards.forEach(card => {
-            const category = card.querySelector('.badge')?.textContent || '';
-            const title = card.querySelector('.video-title')?.textContent || '';
-            const snippet = card.querySelector('.snippet')?.textContent || '';
-
-            const matchesCategory = selectedCategory === 'all' || category.toLowerCase() === selectedCategory.toLowerCase();
-            const matchesSearch = !searchQuery || (title + snippet).toLowerCase().includes(searchQuery);
-
-            if (matchesCategory && matchesSearch) {
-              card.style.display = '';
-            } else {
-              card.style.display = 'none';
-            }
-          });
-        }
-
-        categoryFilter.addEventListener('change', applyFilters);
-        searchInput.addEventListener('input', applyFilters);
-      });
-    </script>
-    
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const loadMoreBtn = document.getElementById('loadMoreBtn');
-        const hiddenCards = document.querySelectorAll('.product-card.hidden');
-        let currentIndex = 0;
-        const batchSize = 8;
-
-        function showMore() {
-          const nextBatch = Array.from(hiddenCards).slice(currentIndex, currentIndex + batchSize);
-          nextBatch.forEach(card => card.classList.remove('hidden'));
-          currentIndex += batchSize;
-          if (currentIndex >= hiddenCards.length) {
-            loadMoreBtn.style.display = 'none';
-          }
-        }
-
-        if (loadMoreBtn) {
-          loadMoreBtn.addEventListener('click', showMore);
-        }
-
-        // Filter functionality
-        const categoryFilter = document.getElementById('categoryFilter');
-        const searchInput = document.getElementById('searchInput');
-        const productCards = document.querySelectorAll('.product-card');
-
-        function applyFilters() {
-          const selectedCategory = categoryFilter.value;
-          const searchQuery = searchInput.value.toLowerCase();
-
-          productCards.forEach(card => {
-            const category = card.querySelector('.badge')?.textContent || '';
-            const title = card.querySelector('.video-title')?.textContent || '';
-            const snippet = card.querySelector('.snippet')?.textContent || '';
-
-            const matchesCategory = selectedCategory === 'all' || category.toLowerCase() === selectedCategory.toLowerCase();
-            const matchesSearch = !searchQuery || (title + snippet).toLowerCase().includes(searchQuery);
-
-            if (matchesCategory && matchesSearch) {
-              card.style.display = '';
-            } else {
-              card.style.display = 'none';
-            }
-          });
-        }
-
-        categoryFilter.addEventListener('change', applyFilters);
-        searchInput.addEventListener('input', applyFilters);
-      });
-    </script>
-    
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const loadMoreBtn = document.getElementById('loadMoreBtn');
-        const hiddenCards = document.querySelectorAll('.product-card.hidden');
-        let currentIndex = 0;
-        const batchSize = 8;
-
-        function showMore() {
-          const nextBatch = Array.from(hiddenCards).slice(currentIndex, currentIndex + batchSize);
-          nextBatch.forEach(card => card.classList.remove('hidden'));
-          currentIndex += batchSize;
-          if (currentIndex >= hiddenCards.length) {
-            loadMoreBtn.style.display = 'none';
-          }
-        }
-
-        if (loadMoreBtn) {
-          loadMoreBtn.addEventListener('click', showMore);
-        }
-
-        // Filter functionality
-        const categoryFilter = document.getElementById('categoryFilter');
-        const searchInput = document.getElementById('searchInput');
-        const productCards = document.querySelectorAll('.product-card');
-
-        function applyFilters() {
-          const selectedCategory = categoryFilter.value;
-          const searchQuery = searchInput.value.toLowerCase();
-
-          productCards.forEach(card => {
-            const category = card.querySelector('.badge')?.textContent || '';
-            const title = card.querySelector('.video-title')?.textContent || '';
-            const snippet = card.querySelector('.snippet')?.textContent || '';
-
-            const matchesCategory = selectedCategory === 'all' || category.toLowerCase() === selectedCategory.toLowerCase();
-            const matchesSearch = !searchQuery || (title + snippet).toLowerCase().includes(searchQuery);
-
-            if (matchesCategory && matchesSearch) {
-              card.style.display = '';
-            } else {
-              card.style.display = 'none';
-            }
-          });
-        }
-
-        categoryFilter.addEventListener('change', applyFilters);
-        searchInput.addEventListener('input', applyFilters);
-      });
-    </script>
-    
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const loadMoreBtn = document.getElementById('loadMoreBtn');
-        const hiddenCards = document.querySelectorAll('.product-card.hidden');
-        let currentIndex = 0;
-        const batchSize = 8;
-
-        function showMore() {
-          const nextBatch = Array.from(hiddenCards).slice(currentIndex, currentIndex + batchSize);
-          nextBatch.forEach(card => card.classList.remove('hidden'));
-          currentIndex += batchSize;
-          if (currentIndex >= hiddenCards.length) {
-            loadMoreBtn.style.display = 'none';
-          }
-        }
-
-        if (loadMoreBtn) {
-          loadMoreBtn.addEventListener('click', showMore);
-        }
-
-        // Filter functionality
-        const categoryFilter = document.getElementById('categoryFilter');
-        const searchInput = document.getElementById('searchInput');
-        const productCards = document.querySelectorAll('.product-card');
-
-        function applyFilters() {
-          const selectedCategory = categoryFilter.value;
-          const searchQuery = searchInput.value.toLowerCase();
-
-          productCards.forEach(card => {
-            const category = card.querySelector('.badge')?.textContent || '';
-            const title = card.querySelector('.video-title')?.textContent || '';
-            const snippet = card.querySelector('.snippet')?.textContent || '';
-
-            const matchesCategory = selectedCategory === 'all' || category.toLowerCase() === selectedCategory.toLowerCase();
-            const matchesSearch = !searchQuery || (title + snippet).toLowerCase().includes(searchQuery);
-
-            if (matchesCategory && matchesSearch) {
-              card.style.display = '';
-            } else {
-              card.style.display = 'none';
-            }
-          });
-        }
-
-        categoryFilter.addEventListener('change', applyFilters);
-        searchInput.addEventListener('input', applyFilters);
-      });
-    </script>
-    
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const loadMoreBtn = document.getElementById('loadMoreBtn');
-        const hiddenCards = document.querySelectorAll('.product-card.hidden');
-        let currentIndex = 0;
-        const batchSize = 8;
-
-        function showMore() {
-          const nextBatch = Array.from(hiddenCards).slice(currentIndex, currentIndex + batchSize);
-          nextBatch.forEach(card => card.classList.remove('hidden'));
-          currentIndex += batchSize;
-          if (currentIndex >= hiddenCards.length) {
-            loadMoreBtn.style.display = 'none';
-          }
-        }
-
-        if (loadMoreBtn) {
-          loadMoreBtn.addEventListener('click', showMore);
-        }
-
-        // Filter functionality
-        const categoryFilter = document.getElementById('categoryFilter');
-        const searchInput = document.getElementById('searchInput');
-        const productCards = document.querySelectorAll('.product-card');
-
-        function applyFilters() {
-          const selectedCategory = categoryFilter.value;
-          const searchQuery = searchInput.value.toLowerCase();
-
-          productCards.forEach(card => {
-            const category = card.querySelector('.badge')?.textContent || '';
-            const title = card.querySelector('.video-title')?.textContent || '';
-            const snippet = card.querySelector('.snippet')?.textContent || '';
-
-            const matchesCategory = selectedCategory === 'all' || category.toLowerCase() === selectedCategory.toLowerCase();
-            const matchesSearch = !searchQuery || (title + snippet).toLowerCase().includes(searchQuery);
-
-            if (matchesCategory && matchesSearch) {
-              card.style.display = '';
-            } else {
-              card.style.display = 'none';
-            }
-          });
-        }
-
-        categoryFilter.addEventListener('change', applyFilters);
-        searchInput.addEventListener('input', applyFilters);
-      });
-    </script>
-    
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const loadMoreBtn = document.getElementById('loadMoreBtn');
-        const hiddenCards = document.querySelectorAll('.product-card.hidden');
-        let currentIndex = 0;
-        const batchSize = 8;
-
-        function showMore() {
-          const nextBatch = Array.from(hiddenCards).slice(currentIndex, currentIndex + batchSize);
-          nextBatch.forEach(card => card.classList.remove('hidden'));
-          currentIndex += batchSize;
-          if (currentIndex >= hiddenCards.length) {
-            loadMoreBtn.style.display = 'none';
-          }
-        }
-
-        if (loadMoreBtn) {
-          loadMoreBtn.addEventListener('click', showMore);
-        }
-
-        // Filter functionality
-        const categoryFilter = document.getElementById('categoryFilter');
-        const searchInput = document.getElementById('searchInput');
-        const productCards = document.querySelectorAll('.product-card');
-
-        function applyFilters() {
-          const selectedCategory = categoryFilter.value;
-          const searchQuery = searchInput.value.toLowerCase();
-
-          productCards.forEach(card => {
-            const category = card.querySelector('.badge')?.textContent || '';
-            const title = card.querySelector('.video-title')?.textContent || '';
-            const snippet = card.querySelector('.snippet')?.textContent || '';
-
-            const matchesCategory = selectedCategory === 'all' || category.toLowerCase() === selectedCategory.toLowerCase();
-            const matchesSearch = !searchQuery || (title + snippet).toLowerCase().includes(searchQuery);
-
-            if (matchesCategory && matchesSearch) {
-              card.style.display = '';
-            } else {
-              card.style.display = 'none';
-            }
-          });
-        }
-
-        categoryFilter.addEventListener('change', applyFilters);
-        searchInput.addEventListener('input', applyFilters);
-      });
-    </script>
+    <!-- GENERATED_PAGINATION_FILTER_END -->
     </body>
   <!-- End of document -->
 </html>
