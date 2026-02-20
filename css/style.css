@@ -903,3 +903,142 @@ h3 {
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
 }
+
+/* Product Detail Page Styles */
+.product-detail {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  padding: 20px 0 40px;
+}
+
+@media (min-width: 768px) {
+  .product-detail {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: start;
+  }
+}
+
+.product-detail-media {
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  max-height: 600px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+}
+
+.product-detail-media img,
+.product-detail-media video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.product-detail-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.product-detail-content .badge {
+  align-self: flex-start;
+  font-size: 12px;
+  padding: 6px 14px;
+  background: #f0ece7;
+  color: #5d5a57;
+  border-radius: 20px;
+}
+
+.product-detail-content .product-title {
+  font-size: clamp(24px, 3vw, 32px);
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 0;
+}
+
+.product-detail-content .product-snippet {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--muted);
+  margin: 0;
+}
+
+.product-detail-content .product-price-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.product-detail-content .price {
+  font-size: clamp(20px, 2.5vw, 28px);
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.product-detail-content .product-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.product-detail-content .rating {
+  color: #f3b42f;
+}
+
+.product-detail-content .product-actions {
+  margin-top: 16px;
+}
+
+.product-detail-content .btn {
+  padding: 14px 32px;
+  font-size: 16px;
+  max-width: none;
+}
+
+/* Related Products Section */
+.related-products {
+  padding: 40px 0;
+  border-top: 1px solid var(--border);
+}
+
+.related-products h2 {
+  margin-bottom: 24px;
+  font-size: clamp(20px, 2.2vw, 26px);
+}
+
+/* Breadcrumb Styles */
+.breadcrumb ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.breadcrumb li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.breadcrumb li:not(:last-child)::after {
+  content: '/';
+  color: var(--muted-2);
+}
+
+.breadcrumb li[aria-current="page"] {
+  color: var(--muted);
+}
+
+/* Site Footer */
+.site-footer {
+  padding: 24px 0;
+  text-align: center;
+  font-size: 14px;
+  color: var(--muted);
+}
